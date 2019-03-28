@@ -20,7 +20,7 @@ public class FileResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadPdfFile(@FormDataParam("file") InputStream fileInputStream,
                                   @FormDataParam("file") FormDataContentDisposition fileMetaData) throws Exception {
-        String UPLOAD_PATH = "c:/temp/";
+        String UPLOAD_PATH = "./ben-temp/";
         try {
             int read = 0;
             byte[] bytes = new byte[1024];
