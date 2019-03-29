@@ -5,25 +5,34 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
 
-//import com.sun.jersey.core.header.FormDataContentDisposition;
-//import com.sun.jersey.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+/*
 
+ */
 
 @Path("/file")
 @Produces(MediaType.APPLICATION_JSON)
 public class FileResource {
-//    @POST
-//    @Consumes(MediaType.MULTIPART_FORM_DATA)
-//    public Response upload(@FormDataParam("file") InputStream fileInputStream,
-//                                  @FormDataParam("file") FormDataContentDisposition fileMetaData) throws Exception {
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response upload( @FormDataParam("file") InputStream fileInputStream,
+                            @FormDataParam("file") FormDataContentDisposition fileMetaData) {
 //        String UPLOAD_PATH = "./ben-temp/";
 //        String uploadedFileLocation = UPLOAD_PATH + fileMetaData.getFileName();
 //
 //        // save it
 //        writeToFile(fileInputStream, uploadedFileLocation);
-//
-//        return Response.ok("Data uploaded successfully !!").build();
-//    }
+
+        return Response.ok("Data uploaded successfully !!").build();
+    }
+
+    @POST
+    @Consumes("text/csv")
+    public Response upload(InputStream fileInputStream) {
+        return null;
+    }
+
     // save uploaded file to new location
     private void writeToFile(InputStream uploadedInputStream,
                              String uploadedFileLocation) {
