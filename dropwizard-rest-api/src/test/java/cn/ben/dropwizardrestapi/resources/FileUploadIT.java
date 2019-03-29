@@ -15,7 +15,7 @@ public class FileUploadIT {
     @Test
     public void uploadPdfFile() {
         //
-        String inputFilePath = "";
+        String inputFilePath = "~/Downloads/bigfile.bin";
         byte[] inputBytes = null;
         try {
             inputBytes = Files.readAllBytes(new File(inputFilePath).toPath());

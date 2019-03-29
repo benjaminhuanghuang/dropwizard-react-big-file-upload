@@ -16,13 +16,26 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 public class FileResource {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response upload( @FormDataParam("file") InputStream fileInputStream,
-                            @FormDataParam("file") FormDataContentDisposition fileMetaData) {
-//        String UPLOAD_PATH = "./ben-temp/";
-//        String uploadedFileLocation = UPLOAD_PATH + fileMetaData.getFileName();
-//
-//        // save it
-//        writeToFile(fileInputStream, uploadedFileLocation);
+    public Response upload(@FormDataParam("file") InputStream fileInputStream,
+                           @FormDataParam("file") FormDataContentDisposition fileMetaData) {
+
+        String UPLOAD_PATH = "/Users/bhuang/temp/";
+        String uploadedFileLocation = UPLOAD_PATH + fileMetaData.getFileName();
+
+        // save it
+        try {
+            OutputStream out = new FileOutputStream(new File(uploadedFileLocation));
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = fileInputStream.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            out.flush();
+            out.close();
+        } catch (IOException exp) {
+            return Response.serverError().build();
+        }
 
         return Response.ok("Data uploaded successfully !!").build();
     }
@@ -34,25 +47,17 @@ public class FileResource {
     }
 
     // save uploaded file to new location
-    private void writeToFile(InputStream uploadedInputStream,
-                             String uploadedFileLocation) {
+    private void writeToFile(InputStream uploadedInputStream, String uploadedFileLocation) throws IOException {
 
-        try {
-            OutputStream out = new FileOutputStream(new File(uploadedFileLocation));
-            int read = 0;
-            byte[] bytes = new byte[1024];
+        int read = 0;
+        byte[] bytes = new byte[1024];
 
-            out = new FileOutputStream(new File(uploadedFileLocation));
-            while ((read = uploadedInputStream.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-
-            e.printStackTrace();
+        OutputStream out = new FileOutputStream(new File(uploadedFileLocation));
+        while ((read = uploadedInputStream.read(bytes)) != -1) {
+            out.write(bytes, 0, read);
         }
-
+        out.flush();
+        out.close();
     }
 
     @GET
